@@ -8,6 +8,6 @@ Fairuz Izdhihar Khalisha, Kelas A, 1402024017
 
 Berkas ini menjelaskan kelengkapan berkas proyek akhir kami yang berjudul AFT Minimart.
 Berkas terdiri dari :
-1. File database sql dengan nama database : namanya apa
+1. File database sql dengan nama database : aft mart
 2. Source code project : NetBeans 
 3. Tautan Repository GitHub : https://github.com/alpatimi/Supermarket.git
