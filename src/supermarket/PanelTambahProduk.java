@@ -38,20 +38,13 @@ import java.awt.event.ActionEvent;
  */
 public class PanelTambahProduk extends javax.swing.JPanel {
             DefaultTableModel model;
-//            ProductDAO dao;
+
             private model.ProductDAO dao;
-    /**
-     * Creates new form PanelTambahProduk
-     */
-    public PanelTambahProduk() {
-        initComponents();
-//        add(Jlabel1, BorderLayout.CENTER);
-//        this.setResizable(false);
-//        this.setLocationRelativeTo(null);
-//        loadTable();
+            public PanelTambahProduk() {
+            initComponents();
+
         try {
             dao = new ProductDAO();
-//            dao.addProduct(new Makanan("Nasi", 10000, 10));
         } catch (Exception ex) {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error inisialisasi ProductDAO: " + ex.getMessage());
@@ -103,6 +96,7 @@ public class PanelTambahProduk extends javax.swing.JPanel {
         stockTxt.setBackground(new java.awt.Color(255, 255, 225));
 
         categoryCbx.setBackground(new java.awt.Color(255, 255, 225));
+        categoryCbx.setFont(new java.awt.Font("Harrington", 1, 14)); // NOI18N
         categoryCbx.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Makanan", "Minuman", "Kebutuhan" }));
 
         jLabel6.setFont(new java.awt.Font("Harrington", 1, 36)); // NOI18N
@@ -145,22 +139,27 @@ public class PanelTambahProduk extends javax.swing.JPanel {
                 .addGap(12, 12, 12)
                 .addComponent(jLabel6)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(namaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(namaTxt)
+                        .addGap(3, 3, 3)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(categoryCbx))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(hargaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(categoryCbx, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel5))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(7, 7, 7)
+                        .addComponent(hargaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(stockTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(stockTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
                 .addComponent(addBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(229, 229, 229))
         );
@@ -176,6 +175,7 @@ public class PanelTambahProduk extends javax.swing.JPanel {
     private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
         // TODO add your handling code here:
         addBtn.addActionListener(new ActionListener() {
+            
     @Override
     public void actionPerformed(ActionEvent e) {
         String nama = namaTxt.getText().trim();
@@ -232,47 +232,6 @@ public class PanelTambahProduk extends javax.swing.JPanel {
         }
     }
 });
-
-//         try {
-//        String nama = nameTxt.getText();
-//        double harga = Double.parseDouble(hargaTxt.getText());
-//        int stok = Integer.parseInt(stockTxt.getText());
-//        String kategori = categoryCbx.getSelectedItem().toString();
-//
-//        Product p;
-//        switch (kategori) {
-//            case "Makanan": p = new Makanan(nama, harga, stok); break;
-//            case "Minuman": p = new Minuman(nama, harga, stok); break;
-//            default: p = new Kebutuhan(nama, harga, stok); break;
-//        }
-//
-//        dao.addProduct(p);
-//        JOptionPane.showMessageDialog(null, "Produk berhasil ditambahkan!");
-////        tampilkanDataKeTabel(); // fungsi untuk refresh JTable
-//}catch(NumberFormatException e){
-//JOptionPane.showMessageDialog(this, "Input harga dan stok  harus angka!");
-//    } catch (Exception ex) {
-//        JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
-//    }
-
-//        String name = nameTxt.getText();
-//        String category = categoryCbx.getSelectedItem().toString();
-//        String harga = hargaTxt.getText();
-//        String stock = stockTxt.getText();
-//
-//        try {
-//            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3307/aft mart", "root", "");
-//            PreparedStatement pst = conn.prepareStatement("UPDATE products SET name=?, category=?, price=?, stock=? WHERE product_id=?");
-//            pst.setString(1, name);
-//            pst.setString(2, category);
-//            pst.setString(3, harga);
-//            pst.setString(4, stock);
-//            pst.executeUpdate();
-//
-//            JOptionPane.showMessageDialog(this, "Data berhasil diupdate");
-//        } catch (Exception ex) {
-//            JOptionPane.showMessageDialog(this, "Gagal update: " + ex.getMessage());
-//        }
 
     }//GEN-LAST:event_addBtnActionPerformed
     

@@ -4,16 +4,22 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/timi/OneDrive/AFT%20mart/Supermarket/src/supermarket/PanelKelolaProduk.java</file>
-            <file>file:/C:/Users/timi/OneDrive/AFT%20mart/Supermarket/src/supermarket/MainDashboardFrame.java</file>
-            <file>file:/C:/Users/timi/OneDrive/AFT%20mart/Supermarket/src/supermarket/Welcome.java</file>
-            <file>file:/C:/Users/timi/OneDrive/AFT%20mart/Supermarket/src/welcome.jpg</file>
-            <file>file:/C:/Users/timi/OneDrive/AFT%20mart/Supermarket/src/supermarket/RegisterPage.java</file>
-            <file>file:/C:/Users/timi/OneDrive/AFT%20mart/Supermarket/src/supermarket/LoginPage.java</file>
-            <file>file:/C:/Users/timi/OneDrive/AFT%20mart/Supermarket/src/supermarket/PanelProduk.java</file>
-            <file>file:/C:/Users/timi/OneDrive/AFT%20mart/Supermarket/src/model/Minuman.java</file>
-            <file>file:/C:/Users/timi/OneDrive/AFT%20mart/Supermarket/src/model/Makanan.java</file>
-            <file>file:/C:/Users/timi/OneDrive/AFT%20mart/Supermarket/src/model/ProductDAO.java</file>
+            <file>file:/C:/Users/timi/OneDrive/AFT%20mart/Supermarket/src/supermarket/PanelTambahProduk.java</file>
             <file>file:/C:/Users/timi/OneDrive/AFT%20mart/Supermarket/src/supermarket/MainDashboardUser.java</file>
+            <file>file:/C:/Users/timi/OneDrive/AFT%20mart/Supermarket/src/supermarket/PanelKeranjang.java</file>
+            <file>file:/C:/Users/timi/OneDrive/AFT%20mart/Supermarket/src/image/user%20(2).png</file>
+            <file>file:/C:/Users/timi/OneDrive/AFT%20mart/Supermarket/src/supermarket/Welcome.java</file>
+            <file>file:/C:/Users/timi/OneDrive/AFT%20mart/Supermarket/src/model/Cart.java</file>
+            <file>file:/C:/Users/timi/OneDrive/AFT%20mart/Supermarket/src/model/Product.java</file>
+            <file>file:/C:/Users/timi/OneDrive/AFT%20mart/Supermarket/src/model/ProductDAO.java</file>
+            <file>file:/C:/Users/timi/OneDrive/AFT%20mart/Supermarket/src/model/Kebutuhan.java</file>
+            <file>file:/C:/Users/timi/OneDrive/AFT%20mart/Supermarket/src/supermarket/UserPanel.java</file>
+            <file>file:/C:/Users/timi/OneDrive/AFT%20mart/Supermarket/src/model/CartItem.java</file>
+            <file>file:/C:/Users/timi/OneDrive/AFT%20mart/Supermarket/src/model/Makanan.java</file>
+            <file>file:/C:/Users/timi/OneDrive/AFT%20mart/Supermarket/src/supermarket/MainDashboardFrame.java</file>
+            <file>file:/C:/Users/timi/OneDrive/AFT%20mart/Supermarket/src/supermarket/PanelProduk.java</file>
+            <file>file:/C:/Users/timi/OneDrive/AFT%20mart/Supermarket/src/model/RoleAction.java</file>
+            <file>file:/C:/Users/timi/OneDrive/AFT%20mart/Supermarket/src/model/Minuman.java</file>
             <file>file:/C:/Users/timi/OneDrive/AFT%20mart/Supermarket/src/supermarket/PanelLihatProduk.java</file>
         </group>
     </open-files>

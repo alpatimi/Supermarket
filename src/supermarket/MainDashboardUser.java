@@ -1,12 +1,9 @@
 package supermarket;
 
-/**
- *
- * @author timi
- */
 import java.awt.CardLayout;
 import supermarket.PanelProduk;
 import supermarket.PanelLihatProduk;
+import supermarket.ProdukUser;
 import java.awt.CardLayout;
 import javax.swing.JOptionPane;
 import model.Kebutuhan;
@@ -15,28 +12,55 @@ import model.Minuman;
 import model.Product;
 import supermarket.RegisterPage;
 import supermarket.LoginPage;
+import model.Product;
+import model.Makanan;
+import model.Minuman;
+import model.Kebutuhan;
+import model.ProductDAO;
+import model.TransactionDAO;
+import model.Cart;
+import model.CartItem;
+import javax.swing.JPanel;
+
+
+
 public class MainDashboardUser extends javax.swing.JFrame {
 private CardLayout cardLayout; 
+//private JPanel cardPanel;
+
+    private ProdukUser produkUserPanel;
+    private PanelKeranjang keranjangPanel;
+    private Cart userCart; 
+    private Cart myApplicationCart; 
+    // Ini adalah objek keranjang yang akan digunakan di seluruh aplikasi
+
+
 
     public MainDashboardUser() {
-        initComponents();
-        cardLayout = (CardLayout) mainContentPanel.getLayout();
-        this.setSize(1070, 600); // Pastikan ukuran frame sudah diset
+    initComponents();
+        this.setSize(1070, 600);
         this.setLocationRelativeTo(null); 
         jSplitPane1.setDividerLocation(200);
-        jSplitPane1.setResizeWeight(0.0); // Menempatkan frame di tengah layar
-        // Tambahkan panel yang akan ditampilkan ke mainContentPanel
-        // Misalnya, Anda akan memiliki JPanel terpisah untuk "Lihat Produk", "Keranjang", dll.
-        // Untuk contoh awal, kita akan tambahkan welcomePanel yang sudah dibuat.
-        // Pastikan welcomePanel sudah dideklarasikan dan diinisialisasi di form designer atau secara manual.
-        mainContentPanel.add(welcomePanel, "Welcome"); // "Welcome" adalah nama kartu
-        // mainContentPanel.add(new LihatProdukPanel(), "LihatProduk");
-        // mainContentPanel.add(new KeranjangBelanjaPanel(), "Keranjang");
+        jSplitPane1.setResizeWeight(0.0);
+        
+        cardLayout = (CardLayout) mainContentPanel.getLayout(); 
 
-        // Tampilkan panel selamat datang di awal
+
+        userCart = new Cart(); //
+
+        keranjangPanel = new PanelKeranjang(); // 
+        keranjangPanel.setCart(userCart); 
+
+        produkUserPanel = new ProdukUser(userCart, keranjangPanel, mainContentPanel, cardLayout); // Pass dependencies
+        // --- AKHIR INISIALISASI ---
+
+        // Tambahkan panel ke mainContentPanel dengan nama kartu unik
+        mainContentPanel.add(welcomePanel, "Welcome");
+        mainContentPanel.add(produkUserPanel, "ProdukUser"); // Panel untuk menampilkan produk
+        mainContentPanel.add(keranjangPanel, "Keranjang"); // Panel untuk keranjang belanja
+
         cardLayout.show(mainContentPanel, "Welcome");
-
-        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -52,7 +76,7 @@ private CardLayout cardLayout;
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         btnLihat = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        keranjangBtn = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         mainContentPanel = new javax.swing.JPanel();
@@ -64,18 +88,27 @@ private CardLayout cardLayout;
         jSplitPane1.setDividerLocation(190);
         jSplitPane1.setOneTouchExpandable(true);
 
-        jPanel1.setBackground(new java.awt.Color(204, 255, 204));
+        jPanel1.setBackground(new java.awt.Color(250, 255, 6, 80));
         jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.Y_AXIS));
 
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/user (2).png"))); // NOI18N
+        jLabel2.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        jLabel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jLabel2.setFocusable(false);
         jLabel2.setMaximumSize(new java.awt.Dimension(500, 100));
+        jLabel2.setPreferredSize(new java.awt.Dimension(508, 128));
         jPanel1.add(jLabel2);
 
-        jLabel1.setFont(new java.awt.Font("Harrington", 1, 36)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Harrington", 1, 24)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Welcome User! ");
         jPanel1.add(jLabel1);
 
+        btnLihat.setBackground(new java.awt.Color(255, 255, 204));
+        btnLihat.setFont(new java.awt.Font("Harrington", 1, 18)); // NOI18N
         btnLihat.setText("Lihat Produk");
-        btnLihat.setMaximumSize(new java.awt.Dimension(400, 100));
+        btnLihat.setMaximumSize(new java.awt.Dimension(300, 80));
         btnLihat.setPreferredSize(new java.awt.Dimension(200, 50));
         btnLihat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -84,21 +117,27 @@ private CardLayout cardLayout;
         });
         jPanel1.add(btnLihat);
 
-        jButton2.setText("Keranjang");
-        jButton2.setMaximumSize(new java.awt.Dimension(400, 100));
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        keranjangBtn.setBackground(new java.awt.Color(255, 255, 204));
+        keranjangBtn.setFont(new java.awt.Font("Harrington", 1, 18)); // NOI18N
+        keranjangBtn.setText("Keranjang");
+        keranjangBtn.setMaximumSize(new java.awt.Dimension(300, 80));
+        keranjangBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                keranjangBtnActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton2);
+        jPanel1.add(keranjangBtn);
 
+        jButton3.setBackground(new java.awt.Color(255, 255, 204));
+        jButton3.setFont(new java.awt.Font("Harrington", 1, 18)); // NOI18N
         jButton3.setText("Riwayat Pembelian");
-        jButton3.setMaximumSize(new java.awt.Dimension(400, 100));
+        jButton3.setMaximumSize(new java.awt.Dimension(300, 80));
         jPanel1.add(jButton3);
 
+        jButton4.setBackground(new java.awt.Color(255, 255, 204));
+        jButton4.setFont(new java.awt.Font("Harrington", 1, 18)); // NOI18N
         jButton4.setText("Logout");
-        jButton4.setMaximumSize(new java.awt.Dimension(400, 100));
+        jButton4.setMaximumSize(new java.awt.Dimension(300, 80));
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
@@ -110,7 +149,7 @@ private CardLayout cardLayout;
 
         mainContentPanel.setLayout(new java.awt.CardLayout());
 
-        jLabel4.setIcon(new javax.swing.ImageIcon("C:\\Users\\timi\\OneDrive\\welcomelagi.png")); // NOI18N
+        jLabel4.setIcon(new javax.swing.ImageIcon("C:\\Users\\timi\\OneDrive\\welcomeuser.png")); // NOI18N
 
         javax.swing.GroupLayout welcomePanelLayout = new javax.swing.GroupLayout(welcomePanel);
         welcomePanel.setLayout(welcomePanelLayout);
@@ -146,17 +185,53 @@ private CardLayout cardLayout;
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void keranjangBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_keranjangBtnActionPerformed
+
+           UserPanel userPanel = new UserPanel();
+            // 2. Tambahkan panelLihat ke mainContentPanel dengan nama kartu unik
+            // Pastikan Anda sudah mendeklarasikan cardLayout di kelas MainDashboardUser
+            // (Anda sudah melakukannya: private CardLayout cardLayout;)
+            mainContentPanel.add(userPanel, "Keranjang Produk"); // "LihatProduk" adalah nama kartu untuk panel ini
+
+            // 3. Tampilkan panelLihat menggunakan CardLayout
+            cardLayout.show(mainContentPanel, "Keranjang Produk");
+
+            // 4. Opsional: Set panelLihat sebagai komponen kanan dari JSplitPane
+            // Ini adalah alternatif jika Anda ingin panel mengambil seluruh bagian kanan split pane
+            jSplitPane1.setRightComponent(mainContentPanel); // Pastikan ini mengacu pada panel yang berisi CardLayout
+            jSplitPane1.revalidate();
+            jSplitPane1.repaint();
+
+        
+    }//GEN-LAST:event_keranjangBtnActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
+          JOptionPane.showMessageDialog(this, "Logging out...");
+        // Example: new LoginPage().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void btnLihatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLihatActionPerformed
-        // TODO add your handling code here:
-        
+ 
+
+            // 1. Buat instance dari PanelLihatProduk
+            cardLayout.show(mainContentPanel, "ProdukUser");
+            ProdukUser panelUser = new ProdukUser();
+
+            // 2. Tambahkan panelLihat ke mainContentPanel dengan nama kartu unik
+            // Pastikan Anda sudah mendeklarasikan cardLayout di kelas MainDashboardUser
+            // (Anda sudah melakukannya: private CardLayout cardLayout;)
+            mainContentPanel.add(panelUser, "User Produk"); // "LihatProduk" adalah nama kartu untuk panel ini
+
+            // 3. Tampilkan panelLihat menggunakan CardLayout
+            cardLayout.show(mainContentPanel, "User Produk");
+
+            // 4. Opsional: Set panelLihat sebagai komponen kanan dari JSplitPane
+            // Ini adalah alternatif jika Anda ingin panel mengambil seluruh bagian kanan split pane
+            jSplitPane1.setRightComponent(mainContentPanel); // Pastikan ini mengacu pada panel yang berisi CardLayout
+            jSplitPane1.revalidate();
+            jSplitPane1.repaint();
     }//GEN-LAST:event_btnLihatActionPerformed
 
     /**
@@ -185,18 +260,24 @@ private CardLayout cardLayout;
             java.util.logging.Logger.getLogger(MainDashboardUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        Cart keranjangAplikasi = new Cart(); // Ini adalah objek Cart yang akan Anda gunakan di seluruh aplikasi Anda
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MainDashboardUser().setVisible(true);
+        // Kedua, buat objek PanelKeranjang tanpa memberikan argumen
+        PanelKeranjang panelKeranjang = new PanelKeranjang(); // <-- INI PANGGILAN YANG BENAR!
+
+        // Ketiga, set objek Cart untuk panelKeranjang
+        panelKeranjang.setCart(keranjangAplikasi); // <-- Panggil metode setter ini!
+
+        // ... lanjutkan dengan menambahkan panelKeranjang ke tampilan Anda (misalnya ke JTabbedPane)
+                java.awt.EventQueue.invokeLater(new Runnable() {
+                    public void run() {
+                        new MainDashboardUser().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLihat;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
@@ -204,6 +285,7 @@ private CardLayout cardLayout;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSplitPane jSplitPane1;
+    private javax.swing.JButton keranjangBtn;
     private javax.swing.JPanel mainContentPanel;
     private javax.swing.JPanel welcomePanel;
     // End of variables declaration//GEN-END:variables

@@ -328,79 +328,22 @@ mainPanelContent.add(panelTambah, "TambahProdukCard");
     private void btnKelolaProdukActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKelolaProdukActionPerformed
         // TODO add your handling code here:
            CardLayout cl = (CardLayout) mainPanelContent.getLayout();
-    cl.show(mainPanelContent, "KelolaProdukCard");
-PanelProduk panelKelola = new PanelProduk();
-mainPanelContent.add(panelKelola, "KelolaProdukCard");
-//Supermarket.view.PanelTambahProduk panelKelola =
-//            Supermarket.view.PanelTambahProduk();
-        mainPanelContent.removeAll(); // Hapus semua komponen yang ada
-        mainPanelContent.add(panelKelola, "KelolaProdukCard"); // Tambahkan panel baru dengan nama kartu
-        mainPanelContent.revalidate(); // Revalidasi
-        mainPanelContent.repaint(); // Repaint
+            cl.show(mainPanelContent, "KelolaProdukCard");
+            PanelProduk panelKelola = new PanelProduk();
+            mainPanelContent.add(panelKelola, "KelolaProdukCard");
+            mainPanelContent.removeAll(); // Hapus semua komponen yang ada
+            mainPanelContent.add(panelKelola, "KelolaProdukCard"); // Tambahkan panel baru dengan nama kartu
+            mainPanelContent.revalidate(); // Revalidasi
+            mainPanelContent.repaint(); // Repaint
 
-    // 2. Set panelKelola sebagai komponen kanan dari JSplitPane Anda
-    // Ganti 'jSplitPane1' dengan nama variabel JSplitPane Anda jika berbeda.
     jSplitPane1.setRightComponent(panelKelola);
-
-    // Opsional: Pastikan JSplitPane memperbarui tampilannya
-    jSplitPane1.revalidate(); // Memvalidasi ulang layout
-    jSplitPane1.repaint();    // Menggambar ulang komponen
+    jSplitPane1.revalidate(); 
+    jSplitPane1.repaint();    
                                                    
-
-        
-//         int baris = tabelProduk.getSelectedRow();
-//        if (baris == -1) {
-//        JOptionPane.showMessageDialog(null, "Pilih data dulu!");
-//        return;
-//    }
-//
-//    try {
-//        int id = Integer.parseInt(tabelProduk.getValueAt(baris, 0).toString());
-//        String nama = nameTxt.getText();
-//        double harga = Double.parseDouble(hargaTxt.getText());
-//        int stok = Integer.parseInt(stockTxt.getText());
-//        String kategori = categoryCbx.getSelectedItem().toString();
-//
-//        Product p;
-//        switch (kategori) {
-//            case "Makanan": p = new Makanan(nama, harga, stok); break;
-//            case "Minuman": p = new Minuman(nama, harga, stok); break;
-//            default: p = new Kebutuhan(nama, harga, stok); break;
-//        }
-//
-//        p.setId(id);
-//        dao.updateProduct(p);
-//        JOptionPane.showMessageDialog(null, "Produk berhasil di-update!");
-//        tampilkanDataKeTabel();
-//    } catch (Exception ex) {
-//        JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
-//    }
-
-
-       
-//    // 1. Buat instance dari PanelKelolaProduk
-//    CardLayout cl = (CardLayout) mainPanelContent.getLayout();
-//    cl.show(mainPanelContent, "KelolaProdukCard");
-//PanelTambahProduk panelKelola = new PanelTambahProduk();
-////Supermarket.view.PanelTambahProduk panelKelola =
-////            Supermarket.view.PanelTambahProduk();
-// mainPanelContent.removeAll(); // Hapus semua komponen yang ada
-//        mainPanelContent.add(panelKelola, "KelolaProdukCard"); // Tambahkan panel baru dengan nama kartu
-//        mainPanelContent.revalidate(); // Revalidasi
-//        mainPanelContent.repaint(); // Repaint
-//
-//    // 2. Set panelKelola sebagai komponen kanan dari JSplitPane Anda
-//    // Ganti 'jSplitPane1' dengan nama variabel JSplitPane Anda jika berbeda.
-//    jSplitPane1.setRightComponent(panelKelola);
-//
-//    // Opsional: Pastikan JSplitPane memperbarui tampilannya
-//    jSplitPane1.revalidate(); // Memvalidasi ulang layout
-//    jSplitPane1.repaint();    // Menggambar ulang komponen
     }//GEN-LAST:event_btnKelolaProdukActionPerformed
 
     private void btnLihatProdukActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLihatProdukActionPerformed
-        // TODO add your handling code here:
-        
+
     // 1. Buat instance dari PanelLihatProduk
     PanelLihatProduk panelLihat = new PanelLihatProduk();
 
@@ -433,24 +376,13 @@ mainPanelContent.add(panelKelola, "KelolaProdukCard");
                                                   JOptionPane.YES_NO_OPTION);
 
     if (konfirmasi == JOptionPane.YES_OPTION) {
-        // 2. Tutup MainDashboardFrame saat ini
         this.dispose(); // 'this' merujuk pada instance MainDashboardFrame saat ini
 
         // 3. Tampilkan kembali LoginPage
         // Pastikan Anda sudah mengimpor LoginPage di MainDashboardFrame.java
         // import supermarket.LoginPage; // Tambahkan ini di bagian atas jika belum ada
-
         LoginPage loginPage = new LoginPage();
         loginPage.setVisible(true);
-
-        // Opsional: Tutup koneksi database jika ada koneksi global yang perlu ditutup saat logout
-        // if (dao != null) { // Jika Anda memiliki DAO yang terhubung di MainDashboardFrame
-        //     try {
-        //         dao.close();
-        //     } catch (Exception ex) {
-        //         System.out.println("Gagal menutup koneksi DAO saat logout: " + ex.getMessage());
-        //     }
-        // }
     }
     }//GEN-LAST:event_jButton1ActionPerformed
 

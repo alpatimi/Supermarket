@@ -1,76 +1,120 @@
+// File: CartItem.java
 package model;
 
-public class CartItem {
-    private Product product;
-    // Hapus properti duplikat ini jika Anda akan mengambilnya dari 'product'
-    // private String nama;
-    // private int productId;
-    // private String kategori;
-    // private double harga;
-    // private int stock; // Ini juga harusnya tidak ada jika ini adalah stock item yang dibeli, bukan stock produk
+/**
+ * Kelas `CartItem` ini mewakili satu baris item di keranjang belanja.
+ * Jadi, kalau kita nambahin "Nasi Goreng" 2 porsi, itu dianggap satu `CartItem`.
+ * Dia nyimpen informasi tentang produknya (objek `Product`) dan berapa kuantitas yang dibeli.
+ */
+public class CartItem { //
+    private Product product; // Ini objek `Product` yang ada di item keranjang.
+    private int quantity; // Ini adalah kuantitas produk yang ditambahkan ke keranjang.
 
-
-    private int quantity; // Ini adalah kuantitas produk yang ditambahkan ke keranjang
-
-    public CartItem(Product product, int quantity) {
-        this.product = product; // Inisialisasi objek Product
-        // Ambil data dari objek product yang dilewatkan
-        // this.productId = product.getId(); // Jika Anda masih ingin menyimpan terpisah
-        // this.nama = product.getNama();
-        // this.kategori = product.getKategori();
-        // this.harga = product.getHarga(); // Ini adalah harga satuan produk
-
-        this.quantity = quantity; // Inisialisasi kuantitas yang dibeli
-        // this.stock = product.getStok(); // Ini adalah stok asli produk, bukan quantity yang dibeli
-
-        // Perhatikan: Anda tidak perlu menyimpan semua detail produk secara terpisah di CartItem
-        // jika Anda sudah menyimpan objek Product itu sendiri.
-        // Cukup akses detailnya melalui getProduct().getNama(), getProduct().getHarga(), dll.
+    /**
+     * Konstruktor untuk `CartItem`.
+     * Pas bikin `CartItem`, kita harus kasih tau produknya apa dan berapa banyak yang dibeli.
+     *
+     * @param product Objek `Product` yang mau dimasukkin ke item keranjang.
+     * @param quantity Jumlah kuantitas dari produk tersebut.
+     */
+    public CartItem(Product product, int quantity) { //
+        this.product = product; // Inisialisasi objek Product.
+        this.quantity = quantity; // Inisialisasi kuantitas yang dibeli.
     }
 
-    public Product getProduct() {
-        return product;
+    /**
+     * Mengambil objek `Product` yang terkait dengan item keranjang ini.
+     *
+     * @return Objek `Product`.
+     */
+    public Product getProduct() { //
+        return product; //
     }
 
-    public int getQuantity() {
-        return quantity;
+    /**
+     * Mengambil kuantitas produk di item keranjang ini.
+     *
+     * @return Kuantitas produk.
+     */
+    public int getQuantity() { //
+        return quantity; //
     }
 
-    public double getSubtotal() {
-        return product.getHarga() * quantity;
+    /**
+     * Menghitung subtotal harga untuk item keranjang ini.
+     * Yaitu harga produk dikalikan dengan kuantitasnya.
+     *
+     * @return Subtotal harga item ini.
+     */
+    public double getSubtotal() { //
+        return product.getHarga() * quantity; //
     }
 
-    // Ubah getter ini agar mengambil dari objek 'product'
-    public int getProductId() {
-        return product.getId();
-    }
-    public String getNama() {
-        return product.getNama();
-    }
-    public String getKategori() {
-        return product.getKategori();
-    }
-    public double getHarga() {
-        return product.getHarga();
+    /**
+     * Mengambil ID produk dari objek `Product` yang ada di item ini.
+     * Ini cara yang bagus buat manggil getter dari objek lain yang dienkapsulasi.
+     *
+     * @return ID produk.
+     */
+    public int getProductId() { // Ubah getter ini agar mengambil dari objek 'product'.
+        return product.getId(); //
     }
 
-    public double getTotalHarga() { // Ini menghitung total harga untuk item ini di keranjang
-        return product.getHarga() * quantity;
+    /**
+     * Mengambil nama produk dari objek `Product` yang ada di item ini.
+     *
+     * @return Nama produk.
+     */
+    public String getNama() { //
+        return product.getNama(); //
     }
 
-    // Hati-hati dengan method getStock() di CartItem.
-    // Jika kolom di tabel keranjang Anda adalah 'Qty' (kuantitas yang dibeli),
-    // maka method ini harusnya adalah getQuantity().
-    // Jika Anda punya kolom 'Stock' di tabel keranjang yang berarti stok sisa produk,
-    // itu tidak biasa ada di tabel keranjang, melainkan di tabel produk.
-    // Asumsi 'Stock' di tabel keranjang itu sebenarnya 'Qty' (quantity yang dibeli):
-    public int getStock(){ // Ganti nama method ini di CartItem menjadi getQuantity() jika memang itu maksudnya.
-        return quantity; // Mengembalikan kuantitas yang dibeli, bukan stok produk
+    /**
+     * Mengambil kategori produk dari objek `Product` yang ada di item ini.
+     *
+     * @return Kategori produk (misal "Makanan", "Minuman").
+     */
+    public String getKategori() { //
+        return product.getKategori(); //
     }
 
-    // Jika Anda ingin mengubah quantity setelah CartItem dibuat
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-        // Tidak perlu menghitung ulang totalHargaItem jika tidak ada properti tersebut
+    /**
+     * Mengambil harga satuan produk dari objek `Product` yang ada di item ini.
+     *
+     * @return Harga satuan produk.
+     */
+    public double getHarga() { //
+        return product.getHarga(); //
+    }
+
+    /**
+     * Ini menghitung total harga untuk item ini di keranjang.
+     * Sebenarnya sama dengan `getSubtotal()`. Mungkin bisa dipilih salah satu.
+     *
+     * @return Total harga item ini (harga * kuantitas).
+     */
+    public double getTotalHarga() { //
+        return product.getHarga() * quantity; //
+    }
+
+    /**
+     * Mengambil jumlah stok produk.
+     * **Catatan**: Method ini namanya `getStock()` tapi mengembalikan `quantity` (kuantitas di keranjang),
+     * bukan stok produk yang sebenarnya di gudang. Ini bisa membingungkan,
+     * mungkin lebih baik diganti namanya atau divalidasi penggunaannya.
+     *
+     * @return Kuantitas produk di item keranjang ini (bukan stok dari Product).
+     */
+    public int getStock(){ //
+        return quantity; //
+    }
+
+    /**
+     * Mengubah kuantitas produk di item keranjang ini.
+     *
+     * @param quantity Kuantitas baru untuk produk ini di keranjang.
+     */
+    public void setQuantity(int quantity) { //
+        this.quantity = quantity; //
     }
 }

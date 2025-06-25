@@ -3,20 +3,108 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package supermarket;
+import java.awt.CardLayout;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import model.Cart;
+import model.CartItem;
+import model.Product;
+import model.ProductDAO;
+import model.Makanan;
+import model.Minuman;
+import model.Kebutuhan;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  *
  * @author timi
  */
 public class ProdukUser extends javax.swing.JPanel {
+  private Cart cart;
+  private PanelKeranjang panelKeranjang;
+  private JPanel mainContentPanel; // Panel yang berisi CardLayout
+ private CardLayout cardLayout; // Layout dari mainContentPanel
 
-    /**
-     * Creates new form ProdukUser
-     */
     public ProdukUser() {
-        initComponents();
+    initComponents();
+    quantity.setValue(1);
+    loadTableProduk(); // Load produk saat frame dibuka
+    
+        tabelProduk.addMouseListener(new MouseAdapter() {
+            @Override
+           public void mouseClicked(MouseEvent evt) {
+                int baris = tabelProduk.getSelectedRow();
+                    if (baris != -1) {
+                        idTxt.setText(tabelProduk.getValueAt(baris, 0).toString());
+                        nameTxt.setText(tabelProduk.getValueAt(baris, 1).toString());
+                        categoryTxt.setText(tabelProduk.getValueAt(baris, 2).toString());
+                        hargaTxt.setText(tabelProduk.getValueAt(baris, 3).toString());
+
+                    }
+            }
+    });
+}
+       public ProdukUser(Cart cart, PanelKeranjang panelKeranjang, JPanel mainContentPanel, CardLayout cardLayout) {
+        this(); // Panggil constructor default untuk inisialisasi GUI
+        this.cart = cart;
+        this.panelKeranjang = panelKeranjang;
+        this.mainContentPanel = mainContentPanel;
+        this.cardLayout = cardLayout;
+    }
+//    public ProdukUser(Cart cart, PanelKeranjang panelKeranjang) {
+//    this(); // panggil constructor default agar GUI Builder NetBeans tetap jalan
+//    this.cart = cart;
+//    this.panelKeranjang = panelKeranjang;
+//    this.mainContentPanel = mainContentPanel;
+//     this.cardLayout = cardLayout;
+//}
+    
+//     public ProdukUser(Cart cart, PanelKeranjang panelKeranjang, JPanel mainContentPanel, CardLayout cardLayout) {
+//        this(); // panggil initComponents() dari constructor default
+//        this.cart = cart;
+//        this.panelKeranjang = panelKeranjang;
+//        this.mainContentPanel = mainContentPanel;
+////        this.mainContentPanel = cardLayout;
+//    }
+
+
+private void loadTableProduk() {
+    try {
+        ProductDAO dao = new ProductDAO();
+        List<Product> produkList = dao.getAllProducts();
+        DefaultTableModel model = (DefaultTableModel) tabelProduk.getModel();
+//        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3307/aft mart", "root", "");
+//        String sql = "SELECT * FROM products";
+//        PreparedStatement stmt = conn.prepareStatement(sql);
+//        ResultSet resultSet = stmt.executeQuery();  // ✅ INI WAJIB ADA
+
+        model.setRowCount(0);
+        for (Product p : produkList) {
+            model.addRow(new Object[]{
+                p.getId(),
+                p.getNama(),
+                p.getKategori(),
+                p.getHarga(),
+                p.getStock()
+            });
+            
+        }
+        
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Gagal ambil data produk: " + e.getMessage());
     }
 
+}
+
+
+  
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -26,15 +114,356 @@ public class ProdukUser extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tabelProduk = new javax.swing.JTable();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        qtySpinner = new javax.swing.JLabel();
+        nameTxt = new javax.swing.JTextField();
+        idTxt = new javax.swing.JTextField();
+        hargaTxt = new javax.swing.JTextField();
+        quantity = new javax.swing.JSpinner();
+        jLabel7 = new javax.swing.JLabel();
+        categoryTxt = new javax.swing.JTextField();
+        tambahBtn = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
-        setLayout(null);
-        add(jLabel1);
-        jLabel1.setBounds(0, 0, 1070, 600);
+        jPanel1.setBackground(new java.awt.Color(0, 0, 0, 80));
+
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+
+        tabelProduk.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "ID", "Nama", "Kategori", "Harga", "Stock"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        tabelProduk.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                tabelProdukAncestorAdded(evt);
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
+        jScrollPane1.setViewportView(tabelProduk);
+
+        jLabel2.setFont(new java.awt.Font("Harrington", 1, 36)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Lihat Produk");
+
+        jLabel3.setFont(new java.awt.Font("Harrington", 1, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("Nama");
+
+        jLabel4.setFont(new java.awt.Font("Harrington", 1, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("Harga");
+
+        jLabel5.setFont(new java.awt.Font("Harrington", 1, 14)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("ID");
+
+        qtySpinner.setFont(new java.awt.Font("Harrington", 1, 14)); // NOI18N
+        qtySpinner.setForeground(new java.awt.Color(255, 255, 255));
+        qtySpinner.setText("Quantity");
+
+        nameTxt.setBackground(new java.awt.Color(255, 255, 213));
+
+        idTxt.setBackground(new java.awt.Color(255, 255, 213));
+
+        hargaTxt.setBackground(new java.awt.Color(255, 255, 213));
+
+        jLabel7.setFont(new java.awt.Font("Harrington", 1, 14)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setText("Category");
+
+        categoryTxt.setBackground(new java.awt.Color(255, 255, 213));
+
+        tambahBtn.setBackground(new java.awt.Color(255, 255, 213));
+        tambahBtn.setFont(new java.awt.Font("Harrington", 1, 18)); // NOI18N
+        tambahBtn.setText("Tambah Keranjang");
+        tambahBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tambahBtnActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(hargaTxt)
+                                    .addComponent(idTxt)
+                                    .addComponent(nameTxt)
+                                    .addComponent(categoryTxt))
+                                .addGap(62, 62, 62))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(quantity, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(qtySpinner, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(tambahBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 12, Short.MAX_VALUE)))
+                        .addContainerGap())))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 413, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(40, 40, 40)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(nameTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(categoryTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(idTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(hargaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(qtySpinner)
+                            .addComponent(quantity, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(tambahBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(90, Short.MAX_VALUE))
+        );
+
+        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\timi\\OneDrive\\background user.png")); // NOI18N
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1070, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(50, 50, 50)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 610, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
     }// </editor-fold>//GEN-END:initComponents
+    
+
+    private void tabelProdukAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_tabelProdukAncestorAdded
+
+    }//GEN-LAST:event_tabelProdukAncestorAdded
+
+    private void tambahBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tambahBtnActionPerformed
+//tambahBtn.addActionListener(e -> {
+////     Product selectedProduct = new Product(productId, productName, productPrice, 0); // stock 0 atau sesuai data
+//   try {
+//            int productId = Integer.parseInt(idTxt.getText());
+//            String productName = nameTxt.getText();
+//            String productCategory = categoryTxt.getText();
+//            double productPrice = Double.parseDouble(hargaTxt.getText());
+//            int qty = (int) quantity.getValue(); // Mengambil nilai dari JSpinner
+//
+//            // Validasi input
+//            if (productId == 0 || productName.isEmpty() || productCategory.isEmpty() || productPrice <= 0 || qty <= 0) {
+//                JOptionPane.showMessageDialog(this, "Mohon lengkapi semua data produk dan quantity dengan benar.", "Input Error", JOptionPane.ERROR_MESSAGE);
+//                return;
+//            }
+//
+//            // Ambil stock produk dari tabel (asumsi kolom ke-4 adalah stock)
+//            int selectedRow = tabelProduk.getSelectedRow();
+//            if (selectedRow == -1) {
+//                JOptionPane.showMessageDialog(this, "Pilih produk dari tabel terlebih dahulu.", "Peringatan", JOptionPane.WARNING_MESSAGE);
+//                return;
+//            }
+//            int stockProduk = Integer.parseInt(tabelProduk.getValueAt(selectedRow, 4).toString());
+//
+//            // Validasi stock
+//            if (qty > stockProduk) {
+//                JOptionPane.showMessageDialog(this, "Jumlah produk yang diminta melebihi stok yang tersedia.", "Stok Habis", JOptionPane.WARNING_MESSAGE);
+//                return;
+//            }
+//            
+//            // Buat objek Product sesuai kategori (jika diperlukan untuk model Anda)
+//            Product selectedProduct = null;
+//            switch (productCategory.toLowerCase()) {
+//                case "makanan":
+//                    selectedProduct = new Makanan(productId, productName, productPrice, stockProduk);
+//                    break;
+//                case "minuman":
+//                    selectedProduct = new Minuman(productId, productName, productPrice, stockProduk);
+//                    break;
+//                case "kebutuhan":
+//                    selectedProduct = new Kebutuhan(productId, productName, productPrice, stockProduk);
+//                    break;
+//                default:
+//                    JOptionPane.showMessageDialog(this, "Kategori produk tidak valid.", "Error", JOptionPane.ERROR_MESSAGE);
+//                    return;
+//            }
+//
+//            // Tambahkan item ke keranjang (objek Cart yang dibagikan)
+//            cart.addItem(selectedProduct, qty);
+//
+//            // Perbarui tampilan PanelKeranjang
+//            panelKeranjang.updateFromCart(cart); // Panggil metode update di PanelKeranjang
+//
+//            JOptionPane.showMessageDialog(this, "Produk berhasil ditambahkan ke keranjang!");
+//
+//            // Opsional: Kosongkan field setelah ditambahkan
+//            idTxt.setText("");
+//            nameTxt.setText("");
+//            categoryTxt.setText("");
+//            hargaTxt.setText("");
+//            quantity.setValue(1); // Reset quantity spinner
+//
+//        } catch (NumberFormatException e) {
+//            JOptionPane.showMessageDialog(this, "Input ID, Harga, atau Kuantitas tidak valid.", "Input Error", JOptionPane.ERROR_MESSAGE);
+//        } catch (Exception e) {
+//            JOptionPane.showMessageDialog(this, "Terjadi kesalahan saat menambahkan produk ke keranjang: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+//            e.printStackTrace(); // Cetak stack trace untuk debugging
+//        }
+try {
+            int selectedRow = tabelProduk.getSelectedRow();
+            if (selectedRow == -1) {
+                JOptionPane.showMessageDialog(this, "Pilih produk dari tabel terlebih dahulu.", "Peringatan", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            int productId = Integer.parseInt(tabelProduk.getValueAt(selectedRow, 0).toString());
+            String productName = tabelProduk.getValueAt(selectedRow, 1).toString();
+            String productCategory = tabelProduk.getValueAt(selectedRow, 2).toString();
+            double productPrice = Double.parseDouble(tabelProduk.getValueAt(selectedRow, 3).toString());
+            int stockProduk = Integer.parseInt(tabelProduk.getValueAt(selectedRow, 4).toString());
+            int qty = (int) quantity.getValue(); // Mengambil nilai dari JSpinner
+
+            // Validasi kuantitas
+            if (qty <= 0) {
+                JOptionPane.showMessageDialog(this, "Jumlah produk harus lebih dari 0.", "Input Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            if (qty > stockProduk) {
+                JOptionPane.showMessageDialog(this, "Jumlah produk yang diminta melebihi stok yang tersedia (" + stockProduk + ").", "Stok Habis", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            // Buat objek Product sesuai kategori (jika diperlukan untuk model Anda)
+            Product selectedProduct = null;
+            switch (productCategory.toLowerCase()) {
+                case "makanan":
+                    selectedProduct = new Makanan(productId, productName, productPrice, stockProduk);
+                    break;
+                case "minuman":
+                    selectedProduct = new Minuman(productId, productName, productPrice, stockProduk);
+                    break;
+                case "kebutuhan":
+                    selectedProduct = new Kebutuhan(productId, productName, productPrice, stockProduk);
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(this, "Kategori produk tidak valid.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+            }
+
+            // Tambahkan item ke keranjang (objek Cart yang dibagikan)
+            if (cart != null) {
+                cart.addItem(selectedProduct, qty);
+                JOptionPane.showMessageDialog(this, "Produk berhasil ditambahkan ke keranjang!");
+            } else {
+                JOptionPane.showMessageDialog(this, "Error: Objek Cart belum diinisialisasi.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Perbarui tampilan PanelKeranjang
+            if (panelKeranjang != null) {
+                panelKeranjang.updateFromCart(cart); // Panggil metode update di PanelKeranjang
+            } else {
+                JOptionPane.showMessageDialog(this, "Error: Objek PanelKeranjang belum diinisialisasi.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
+            // Opsional: Kosongkan field setelah ditambahkan
+            idTxt.setText("");
+            nameTxt.setText("");
+            categoryTxt.setText("");
+            hargaTxt.setText("");
+            quantity.setValue(1); // Reset quantity spinner
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Input ID, Harga, atau Kuantitas tidak valid.", "Input Error", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Terjadi kesalahan saat menambahkan produk ke keranjang: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace(); // Cetak stack trace untuk debugging
+        }
+
+    }//GEN-LAST:event_tambahBtnActionPerformed
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField categoryTxt;
+    private javax.swing.JTextField hargaTxt;
+    private javax.swing.JTextField idTxt;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField nameTxt;
+    private javax.swing.JLabel qtySpinner;
+    private javax.swing.JSpinner quantity;
+    private javax.swing.JTable tabelProduk;
+    private javax.swing.JButton tambahBtn;
     // End of variables declaration//GEN-END:variables
+
 }
